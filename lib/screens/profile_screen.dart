@@ -10,7 +10,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   //Todo 1 variabel
   bool isSignedIn= false;
-  String fullName="";
+  String fullName="Rachmadi.";
   String userName="Rachmadi";
   int favoriteCandiCount=0;
 
@@ -58,16 +58,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Row(
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.of(context).size.width/3,
                     child : Row(children: [
                       Icon(Icons.lock, color: Colors.amber,),
                       SizedBox(width: 8,),
                       Text("Pengguna", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.bold),)
                     ],)
                   ),
-                  Expanded(child: Text(' : RRR', style: TextStyle(fontSize: 18),))
+                  Expanded(child: Text(' : $userName', style: TextStyle(fontSize: 18),))
                 ],
-              )
+              ),
+              SizedBox(height: 4,),
+              Divider(color: Colors.deepPurple,),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width/3,
+                    child : Row(children: [
+                      Icon(Icons.person, color: Colors.blue,),
+                      SizedBox(width: 8,),
+                      Text("Nama", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.bold),)
+                    ],)
+                  ),
+                  Expanded(child: Text(' : $fullName', style: TextStyle(fontSize: 18),)),
+                  if(isSignedIn) const Icon(Icons.edit)
+                ],
+              ),
+              SizedBox(height: 4,),
+              Divider(color: Colors.deepPurple,),
+              Row(
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width/3,
+                    child : Row(children: [
+                      Icon(Icons.favorite, color: Colors.blue,),
+                      SizedBox(width: 8,),
+                      Text("Favorit", style: TextStyle(fontSize: 18 , fontWeight: FontWeight.bold),)
+                    ],)
+                  ),
+                  Expanded(child: Text(' : $favoriteCandiCount', style: TextStyle(fontSize: 18),))
+                ],
+              ),
+              SizedBox(height: 4,),
+              Divider(color: Colors.deepPurple,),
+              SizedBox(height: 16,),
+              isSignedIn 
+              ? TextButton(onPressed: () {}, child: const Text('Signed Out'))
+              : TextButton(onPressed: () {}, child: const Text('Signed In'))
               //Todo 4 Profile Action
             ],
           ),
