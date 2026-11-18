@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_wisata_candi_2627_51/models/candi.dart';
+import 'package:flutter_wisata_candi_2627_51/providers/favorite_provider.dart';
+import 'package:provider/provider.dart';
 
 class DetailScreen extends StatelessWidget {
   final Candi candi;
-
   const DetailScreen({super.key, required this.candi});
 
   @override
   Widget build(BuildContext context) {
+    final isFav = context.watch<FavoriteProvider>().isFavorite(candi.name);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // TODO: DetailHeader
+            // DetailHeader
             Stack(
               children: [
                 Padding(
@@ -49,12 +53,13 @@ class DetailScreen extends StatelessWidget {
             ),
 
             // DetailInfo
-            // DetailInfo Atas
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
+                  // DetailInfo Atas
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -66,67 +71,74 @@ class DetailScreen extends StatelessWidget {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.favorite_border),
+                        onPressed: () {
+                          context.read<FavoriteProvider>().toggle(candi.name);
+                        },
+                        icon: Icon(
+                          isFav ? Icons.favorite : Icons.favorite_border,
+                          color: isFav ? Colors.red : null,
+                        ),
                       ),
                     ],
                   ),
+
+                  // DetailInfo Tengah
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      const Icon(Icons.place, color: Colors.red),
+                      const SizedBox(width: 8),
+                      const SizedBox(
+                        width: 70,
+                        child: Text(
+                          'Lokasi',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(": ${candi.location}"),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.calendar_month, color: Colors.blue),
+                      const SizedBox(width: 8),
+                      const SizedBox(
+                        width: 70,
+                        child: Text(
+                          'Dibangun',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(": ${candi.built}"),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.house, color: Colors.green),
+                      const SizedBox(width: 8),
+                      const SizedBox(
+                        width: 70,
+                        child: Text(
+                          'Tipe',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Text(": ${candi.type}"),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Divider(color: Colors.deepPurple.shade100),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Deskripsi',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(candi.description),
                 ],
               ),
             ),
-            // DetailInfo Tengah
-            SizedBox(height: 16),
-            Row(
-              children: [
-                const Icon(Icons.place, color: Colors.red),
-                const SizedBox(width: 8),
-                const SizedBox(
-                  width: 70,
-                  child: Text(
-                    'Lokasi',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Text(": ${candi.location}"),
-              ],
-            ),
-            Row(
-              children: [
-                const Icon(Icons.calendar_month, color: Colors.blue),
-                const SizedBox(width: 8),
-                const SizedBox(
-                  width: 70,
-                  child: Text(
-                    'Dibangun',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Text(": ${candi.built}"),
-              ],
-            ),
-            Row(
-              children: [
-                const Icon(Icons.house, color: Colors.green),
-                const SizedBox(width: 8),
-                const SizedBox(
-                  width: 70,
-                  child: Text(
-                    'Tipe',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Text(": ${candi.type}"),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Divider(color: Colors.deepPurple.shade100),
-            const SizedBox(height: 16),
-            const Text(
-              'Deskripsi',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Text(candi.description),
+
             // DetailGallery
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -139,7 +151,6 @@ class DetailScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  //SixeBox dibawah ini untuk image gallery, gunakan ListView.builder agar bisa di scroll horizontal
                   SizedBox(
                     height: 100,
                     child: ListView.builder(
